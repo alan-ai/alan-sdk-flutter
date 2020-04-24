@@ -11,7 +11,7 @@ This is an example of using the Alan Fluter SDK.
 
 ## Documentation
   
-API documentation available [here](https://alan.app/docs/integrations/electron)
+API documentation available [here](https://alan.app/docs/integrations/flutter)
 
 ## Have questions?
 

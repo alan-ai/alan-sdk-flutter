@@ -1,0 +1,28 @@
+PODS:
+  - alan_voice (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - package_info (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - alan_voice (from `.symlinks/plugins/alan_voice/ios`)
+  - Flutter (from `Flutter`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
+
+EXTERNAL SOURCES:
+  alan_voice:
+    :path: ".symlinks/plugins/alan_voice/ios"
+  Flutter:
+    :path: Flutter
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
+
+SPEC CHECKSUMS:
+  alan_voice: 3299393a953a060d0e937776ba6efcf5c4a61304
+  Flutter: c07ea686ea8940dc75f09e821939d5673da0f1b8
+  package_info: 52d01d8f2f70c72f4a689c7dd5c623c748036371
+
+PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+
+COCOAPODS: 1.9.1

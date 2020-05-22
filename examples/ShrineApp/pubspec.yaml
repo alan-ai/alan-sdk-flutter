@@ -13,7 +13,7 @@ dependencies:
   intl: ^0.15.7
   scoped_model: ^0.3.0
   shrine_images: ^1.0.0
-  alan_voice: 2.0.3
+  alan_voice: 2.0.5
 
 dev_dependencies:
   flutter_test:

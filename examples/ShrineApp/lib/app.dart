@@ -46,7 +46,7 @@ class _ShrineAppState extends State<ShrineApp>
     _controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 450), value: 1.0);
 
-    AlanVoice.addButton("efa17165dcf4bb83dcb0c8c4bf42500a2e956eca572e1d8b807a3e2338fdd0dc/prod");
+    AlanVoice.addButton("23f609792aedd5734d0bf347580da6fd2e956eca572e1d8b807a3e2338fdd0dc/prod");
     _printVersion();
 
     AlanVoice.callbacks.add((command) => _handleCommand(command.data));

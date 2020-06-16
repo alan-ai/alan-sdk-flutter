@@ -102,10 +102,6 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
             ),
-//            Padding(
-//              padding: const EdgeInsets.all(16.0),
-//              child: Icon(Icons.add_shopping_cart),
-//            ),
           ]),
     );
   }

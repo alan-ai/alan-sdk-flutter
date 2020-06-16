@@ -25,9 +25,12 @@ import 'expanding_bottom_sheet.dart';
 import 'home.dart';
 import 'model/app_state_model.dart';
 import 'model/product.dart';
+import 'order_confirm.dart';
 import 'supplemental/cut_corners_border.dart';
 
 class ShrineApp extends StatefulWidget {
+  static final navKey = new GlobalKey<NavigatorState>();
+
   @override
   _ShrineAppState createState() => _ShrineAppState();
 }
@@ -53,6 +56,14 @@ class _ShrineAppState extends State<ShrineApp>
     _printVersion();
 
     AlanVoice.callbacks.add((command) => _handleCommand(command.data));
+    AlanVoice.addConnectionCallback((state) => _handleConnectionState(state));
+  }
+
+  //Resend visuals in case of disconnect from tutor
+  void _handleConnectionState(String state) {
+    if (state == "CONNECTED") {
+      _model.setVisuals();
+    }
   }
 
   void _handleCommand(Map<String, dynamic> command) {
@@ -79,42 +90,66 @@ class _ShrineAppState extends State<ShrineApp>
       case "highlight":
         _highlightWidget(command["value"]);
         break;
+      case "show_products":
+        _filterProducts(command["items"]);
+        break;
+      case "finishOrder":
+        _handleFinishOrder();
+        break;
       default:
         debugPrint("Unknown command: ${command}");
     }
   }
 
+  void _filterProducts(List<dynamic> items) {
+    List<int> products = items.cast();
+    _model.filterProductsById(products);
+  }
+
+  void _handleFinishOrder() {
+    _model.clearCart();
+    _model.dispatcher.closeCart();
+
+    final materialContext = ShrineApp.navKey.currentState.overlay.context;
+    showDialog(
+      context: materialContext,
+      builder: (BuildContext context) => OrderConfirmDialog(),
+    );
+    new Timer(const Duration(seconds: 2), () => Navigator.pop(materialContext));
+  }
+
   void _highlightWidget(String name) {
-    switch (name) {
-      case "total":
-        break;
-      default:
-        debugPrint("Unknown highlight widget: ${name}");
-    }
+    _model.highlightValue(name);
   }
 
   void _navigateTo(String screen) {
     switch (screen) {
+      case "/all":
+        _openCategory(Category.all);
+        break;
       case "/accessories":
-        _model.setCategory(Category.accessories);
+        _openCategory(Category.accessories);
         break;
       case "/clothing":
-        _model.setCategory(Category.clothing);
+        _openCategory(Category.clothing);
         break;
       case "/home":
-        _model.setCategory(Category.home);
+        _openCategory(Category.home);
         break;
       case "/cart":
-        _model.dispatcher.open();
-        _model.setVisuals("cart");
+        _model.dispatcher.openCart();
         break;
       case "back":
-        _model.dispatcher.close();
-        _model.setCurrentVisuals();
+        _model.dispatcher.closeCart();
         break;
       default:
         print("Unknown screen: $screen");
     }
+  }
+
+  void _openCategory(Category category) {
+    _model.dispatcher.closeCart();
+    _model.setCategory(category);
   }
 
   void _highlightProduct(int id) {
@@ -145,6 +180,7 @@ class _ShrineAppState extends State<ShrineApp>
       _model = model;
 
       return MaterialApp(
+        navigatorKey: ShrineApp.navKey,
         title: 'Shrine',
         home: HomePage(
           backdrop: Backdrop(
@@ -171,15 +207,6 @@ class _ShrineAppState extends State<ShrineApp>
 }
 
 Route<dynamic> _getRoute(RouteSettings settings) {
-  if (settings.name != '/login') {
-    return null;
-  }
-
-//  return MaterialPageRoute<void>(
-//    settings: settings,
-//    builder: (BuildContext context) => LoginPage(),
-//    fullscreenDialog: true,
-//  );
   return null;
 }
 

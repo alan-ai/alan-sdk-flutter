@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:async';
-
 import 'package:alan_voice/alan_voice.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:convert';
@@ -29,6 +27,8 @@ class AppStateModel extends Model {
 
   Dispatcher dispatcher = new Dispatcher();
 
+  String _highlightedValue = "";
+
   // All the available products.
   List<Product> _availableProducts;
 
@@ -40,16 +40,16 @@ class AppStateModel extends Model {
 
   Map<int, int> get productsInCart => Map.from(_productsInCart);
 
-  Map<String, int> get cartMap => _productsInCart.map((k, v) => MapEntry(k.toString(), v));
-
   // Total number of items in the cart.
   int get totalCartQuantity => _productsInCart.values.fold(0, (v, e) => v + e);
 
   Category get selectedCategory => _selectedCategory;
 
+  String _currentScreen = "all";
+
   // Totaled prices of the items in the cart.
   double get subtotalCost => _productsInCart.keys
-      .map((id) => _availableProducts[id].price * _productsInCart[id])
+      .map((id) => ProductsRepository.findById(id).price * _productsInCart[id])
       .fold(0.0, (sum, e) => sum + e);
 
   // Total shipping cost for the items in the cart.
@@ -77,7 +77,11 @@ class AppStateModel extends Model {
   }
 
   String cartToJson() {
-    var str = json.encode(cartMap);
+    var orderedCart = List<Map<String, dynamic>>(); //we need this to persist item ordering
+    _productsInCart.forEach((k, v) => {
+      orderedCart.add({"id": k, "qty": v})
+    });
+    var str = json.encode(orderedCart);
     if (str == "{}") {
       str = null;
     }
@@ -116,16 +120,19 @@ class AppStateModel extends Model {
 
   // Returns the Product instance matching the provided id.
   Product getProductById(int id) {
-    return _availableProducts.firstWhere((p) => p.id == id);
+    return ProductsRepository.findById(id);
   }
+
+  int _highlightedProduct = -1;
 
   void highlightProduct(int id) {
     getProductById(id).isHighlighted = true;
+    _highlightedProduct = id;
     notifyListeners();
   }
 
   void deHighlight() {
-    _availableProducts.forEach((p) => p.isHighlighted = false);
+    getProductById(_highlightedProduct).isHighlighted = false;
     notifyListeners();
   }
 
@@ -137,30 +144,51 @@ class AppStateModel extends Model {
 
   // Loads the list of available products from the repo.
   void loadProducts() {
-    _availableProducts = ProductsRepository.loadProducts(Category.all);
+    _availableProducts = ProductsRepository.loadProducts();
+    notifyListeners();
+  }
+
+  void filterProductsById(Iterable<int> products) {
+    _availableProducts = ProductsRepository.loadProducts()
+        .where((product) => products.contains(product.id))
+        .toList();
     notifyListeners();
   }
 
   void setCategory(Category newCategory) {
+    _availableProducts = ProductsRepository.loadProducts();
     _selectedCategory = newCategory;
+    _currentScreen = _getCategoryString(_selectedCategory);
     notifyListeners();
   }
 
-  void setVisuals(String screen) {
+  void setVisuals() {
     var visual =
-        "{\"screen\":\"$screen\", \"order\":${cartToJson()}, \"total\":${totalCost}}";
+        "{\"screen\":\"$_currentScreen\", \"order\":${cartToJson()}, \"total\":${totalCost}}";
     print(visual);
     AlanVoice.setVisualState(visual);
   }
 
-  void setVisualsForCategory(Category category) {
-    final categoryString =
-    category.toString().replaceAll('Category.', '').toLowerCase();
-    setVisuals(categoryString);
+  void highlightValue(String value) {
+    _highlightedValue = value;
+    notifyListeners();
   }
 
-  void setCurrentVisuals() {
-    setVisualsForCategory(selectedCategory);
+  bool isValueHighlighted(String value) {
+    return this._highlightedValue == value;
   }
 
+  String _getCategoryString(Category category) {
+    return category.toString().replaceAll('Category.', '').toLowerCase();
+  }
+
+  void cartIsOpened() {
+    _currentScreen = "cart";
+    setVisuals();
+  }
+
+  void cartIsClosed() {
+    _currentScreen = _getCategoryString(_selectedCategory);
+    setVisuals();
+  }
 }

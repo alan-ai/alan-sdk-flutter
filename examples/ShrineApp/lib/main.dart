@@ -27,7 +27,7 @@ void main() {
   model.loadProducts();
 
   model.addListener(() => {
-    model.setCurrentVisuals()
+    model.setVisuals()
   });
 
   runApp(

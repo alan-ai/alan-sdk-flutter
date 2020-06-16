@@ -160,10 +160,10 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
   void _handleEvent(String event) {
     debugPrint("Got new event: ${event}");
     switch (event) {
-      case "open":
+      case "openCart":
         open();
         break;
-      case "close":
+      case "closeCart":
         close();
         break;
       default:
@@ -299,18 +299,17 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
 
   // Opens the ExpandingBottomSheet if it's closed, otherwise does nothing.
   void open() {
-    debugPrint("trying to open BS");
-    _model.setVisuals("cart");
     if (!_isOpen) {
       _controller.forward();
+      _model.cartIsOpened();
     }
   }
 
   // Closes the ExpandingBottomSheet if it's open or opening, otherwise does nothing.
   void close() {
-    _model.setCurrentVisuals();
     if (_isOpen) {
       _controller.reverse();
+      _model.cartIsClosed();
     }
   }
 
@@ -362,9 +361,9 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
   Widget _buildCart(BuildContext context, Widget child) {
     // numProducts is the number of different products in the cart (does not
     // include multiples of the same product).
-    _model = ScopedModel.of<AppStateModel>(context);
-    final int numProducts = _model.productsInCart.keys.length;
-    final int totalCartQuantity = _model.totalCartQuantity;
+    final AppStateModel model = ScopedModel.of<AppStateModel>(context);
+    final int numProducts = model.productsInCart.keys.length;
+    final int totalCartQuantity = model.totalCartQuantity;
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;
@@ -445,6 +444,7 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
             onTap: open,
             child: ScopedModelDescendant<AppStateModel>(
               builder: (context, child, model) {
+                _model = model;
                 return AnimatedBuilder(
                   builder: _buildCart,
                   animation: _controller,

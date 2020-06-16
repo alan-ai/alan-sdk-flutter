@@ -20,6 +20,7 @@ import 'colors.dart';
 import 'expanding_bottom_sheet.dart';
 import 'model/app_state_model.dart';
 import 'model/product.dart';
+import 'model/products_repository.dart';
 
 const _leftColumnWidth = 60.0;
 
@@ -33,7 +34,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return model.productsInCart.keys
         .map(
           (id) => ShoppingCartRow(
-                product: model.getProductById(id),
+                product: ProductsRepository.findById(id),
                 quantity: model.productsInCart[id],
                 onPressed: () {
                   model.removeItemFromCart(id);
@@ -113,10 +114,26 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 }
 
-class ShoppingCartSummary extends StatelessWidget {
+class ShoppingCartSummary extends StatefulWidget {
   ShoppingCartSummary({this.model});
 
   final AppStateModel model;
+
+  @override
+  _ShoppingCartSummaryState createState() =>
+      _ShoppingCartSummaryState();
+}
+
+class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
+  _ShoppingCartSummaryState();
+
+  Color _borderColor(AppStateModel model, String value) {
+    if (model.isValueHighlighted(value)) {
+      return Colors.blue;
+    } else {
+      return Colors.transparent;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,67 +143,77 @@ class ShoppingCartSummary extends StatelessWidget {
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: 2, locale: Localizations.localeOf(context).toString());
 
-    return Row(
-      children: [
-        SizedBox(width: _leftColumnWidth),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+    return ScopedModelDescendant<AppStateModel>(
+      builder: (context, child, model) {
+        return Row(
+          children: [
+            SizedBox(width: _leftColumnWidth),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Column(
                   children: [
-                    const Expanded(
-                      child: Text('TOTAL'),
+                    Container(
+                      padding: EdgeInsets.only(
+                          top: 2.0, left: 2.0, right: 16.0, bottom: 2.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: _borderColor(model, "total"))),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Expanded(
+                            child: Text('TOTAL'),
+                          ),
+                          Text(
+                            formatter.format(model.totalCost),
+                            style: largeAmountStyle,
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      formatter.format(model.totalCost),
-                      style: largeAmountStyle,
+                    const SizedBox(height: 16.0),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('Subtotal:'),
+                        ),
+                        Text(
+                          formatter.format(model.subtotalCost),
+                          style: smallAmountStyle,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4.0),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('Shipping:'),
+                        ),
+                        Text(
+                          formatter.format(model.shippingCost),
+                          style: smallAmountStyle,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4.0),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Text('Tax:'),
+                        ),
+                        Text(
+                          formatter.format(model.tax),
+                          style: smallAmountStyle,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 16.0),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text('Subtotal:'),
-                    ),
-                    Text(
-                      formatter.format(model.subtotalCost),
-                      style: smallAmountStyle,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text('Shipping:'),
-                    ),
-                    Text(
-                      formatter.format(model.shippingCost),
-                      style: smallAmountStyle,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4.0),
-                Row(
-                  children: [
-                    const Expanded(
-                      child: Text('Tax:'),
-                    ),
-                    Text(
-                      formatter.format(model.tax),
-                      style: smallAmountStyle,
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
@@ -198,6 +225,14 @@ class ShoppingCartRow extends StatelessWidget {
   final Product product;
   final int quantity;
   final VoidCallback onPressed;
+
+  Color _borderColor() {
+    if (product.isHighlighted) {
+      return Colors.blue;
+    } else {
+      return Colors.transparent;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,8 +254,11 @@ class ShoppingCartRow extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0),
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 2.0, left: 2.0, right: 16.0, bottom: 2.0),
+                decoration:
+                BoxDecoration(border: Border.all(color: _borderColor())),
               child: Column(
                 children: [
                   Row(

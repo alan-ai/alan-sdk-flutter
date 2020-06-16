@@ -13,10 +13,30 @@
 // limitations under the License.
 
 import 'product.dart';
-
 class ProductsRepository {
-  static List<Product> loadProducts(Category category) {
-    var allProducts = <Product>[
+  static List<Product> _products = _generateList();
+
+  static List<Product> loadProducts() {
+    return _products;
+  }
+
+  static Product findById(int id) {
+    return _products.firstWhere(
+            (p) => p.id == id,
+        orElse: () => _invalidProduct
+    );
+  }
+
+  static Product _invalidProduct = Product(
+    category: Category.accessories,
+    id: -1,
+    isFeatured: false,
+    name: 'INVALID ITEM',
+    price: 666,
+  );
+
+  static List<Product> _generateList() {
+    return <Product>[
       Product(
         category: Category.accessories,
         id: 0,
@@ -284,10 +304,5 @@ class ProductsRepository {
         price: 58,
       ),
     ];
-    if (category == Category.all) {
-      return allProducts;
-    } else {
-      return allProducts.where((Product p) => p.category == category).toList();
-    }
   }
 }

@@ -14,7 +14,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:alan_voice/alan_voice.dart';
 
 import 'colors.dart';
 import 'model/app_state_model.dart';

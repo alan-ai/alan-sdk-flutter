@@ -14,7 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
+import 'package:package_info/package_info.dart';
 import 'login.dart';
 
 const Cubic _kAccelerateCurve = Cubic(0.548, 0.0, 0.757, 0.464);
@@ -179,10 +179,23 @@ class _BackdropState extends State<Backdrop>
   AnimationController _controller;
   Animation<RelativeRect> _layerAnimation;
 
+  String _version = "";
+
+  _BackdropState() {
+    _getVersion().then((v) => setState(() {
+      _version = v;
+    }));
+  }
+
   @override
   void initState() {
     super.initState();
     _controller = widget.controller;
+  }
+
+  Future<String> _getVersion() async {
+    var packageInfo = await PackageInfo.fromPlatform();
+    return "v.${packageInfo.version}.${packageInfo.buildNumber}";
   }
 
   @override
@@ -302,24 +315,10 @@ class _BackdropState extends State<Backdrop>
         backTitle: widget.backTitle,
       ),
       actions: <Widget>[
-//        IconButton(
-//          icon: const Icon(Icons.search, semanticLabel: 'login'),
-//          onPressed: () {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-//            );
-//          },
-//        ),
-//        IconButton(
-//          icon: const Icon(Icons.tune, semanticLabel: 'login'),
-//          onPressed: () {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (BuildContext context) => LoginPage()),
-//            );
-//          },
-//        ),
+        Container(
+          padding: EdgeInsets.all(20.0),
+          child: Text(_version),
+        ),
       ],
     );
     return Scaffold(

@@ -38,8 +38,8 @@ class ProductScrollController extends ScrollController {
       position += 16;
     }
     animateTo(position,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.bounceIn
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.linearToEaseOut
     );
   }
 }

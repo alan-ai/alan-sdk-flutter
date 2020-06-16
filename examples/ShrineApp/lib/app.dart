@@ -61,6 +61,9 @@ class _ShrineAppState extends State<ShrineApp>
       case "addToCart":
         _addToCart(command["item"], command["quantity"]);
         break;
+      case "removeFromCart":
+        _addToCart(command["item"], -command["quantity"]);
+        break;
       case "highlightProducts":
         _highlightProduct(command["value"]);
         break;
@@ -124,7 +127,7 @@ class _ShrineAppState extends State<ShrineApp>
   }
 
   void _addToCart(int itemId, int quantity) {
-    _model.addProductToCart(itemId);
+    _model.addProductToCart(itemId, quantity);
   }
 
   void _printVersion() async {

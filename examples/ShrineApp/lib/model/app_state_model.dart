@@ -93,6 +93,10 @@ class AppStateModel extends Model {
         _productsInCart[productId]++;
       }
 
+      if (_productsInCart[productId] <= 0) {
+        removeItemFromCart(productId);
+      }
+
       notifyListeners();
     }
   }

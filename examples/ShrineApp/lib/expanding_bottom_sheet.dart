@@ -128,6 +128,7 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
 
   Dispatcher dispatcher;
   StreamSubscription<String> _controlStreamSubscription;
+  AppStateModel _model;
 
   // The width of the Material, calculated by _widthFor() & based on the number
   // of products in the cart. 64.0 is the width when there are 0 products
@@ -299,6 +300,7 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
   // Opens the ExpandingBottomSheet if it's closed, otherwise does nothing.
   void open() {
     debugPrint("trying to open BS");
+    _model.setVisuals("cart");
     if (!_isOpen) {
       _controller.forward();
     }
@@ -306,6 +308,7 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
 
   // Closes the ExpandingBottomSheet if it's open or opening, otherwise does nothing.
   void close() {
+    _model.setCurrentVisuals();
     if (_isOpen) {
       _controller.reverse();
     }
@@ -359,9 +362,9 @@ class _ExpandingBottomSheetState extends State<ExpandingBottomSheet>
   Widget _buildCart(BuildContext context, Widget child) {
     // numProducts is the number of different products in the cart (does not
     // include multiples of the same product).
-    final AppStateModel model = ScopedModel.of<AppStateModel>(context);
-    final int numProducts = model.productsInCart.keys.length;
-    final int totalCartQuantity = model.totalCartQuantity;
+    _model = ScopedModel.of<AppStateModel>(context);
+    final int numProducts = _model.productsInCart.keys.length;
+    final int totalCartQuantity = _model.totalCartQuantity;
     final Size screenSize = MediaQuery.of(context).size;
     final double screenWidth = screenSize.width;
     final double screenHeight = screenSize.height;

@@ -99,7 +99,6 @@ class AppStateModel extends Model {
       }
 
       notifyListeners();
-    }
   }
 
   // Removes an item from the cart.

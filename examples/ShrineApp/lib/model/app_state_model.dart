@@ -90,11 +90,8 @@ class AppStateModel extends Model {
 
   // Adds a product to the cart.
   void addProductToCart(int productId, [int quantity = 1]) {
-    for (int i = 0; i < quantity; i++) {
       if (!_productsInCart.containsKey(productId)) {
-        _productsInCart[productId] = 1;
-      } else {
-        _productsInCart[productId]++;
+        _productsInCart[productId] = _productsInCart[productId] + quantity;
       }
 
       if (_productsInCart[productId] <= 0) {

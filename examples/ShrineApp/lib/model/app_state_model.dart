@@ -91,23 +91,25 @@ class AppStateModel extends Model {
   // Adds a product to the cart.
   void addProductToCart(int productId, [int quantity = 1]) {
       if (!_productsInCart.containsKey(productId)) {
-        _productsInCart[productId] = _productsInCart[productId] + quantity;
-      }
-
-      if (_productsInCart[productId] <= 0) {
-        removeItemFromCart(productId);
+        _productsInCart[productId] = quantity;
+      } else {
+        _productsInCart[productId]+= quantity;
       }
 
       notifyListeners();
   }
 
   // Removes an item from the cart.
-  void removeItemFromCart(int productId) {
+  void removeItemFromCart(int productId, [int quantity = 1]) {
     if (_productsInCart.containsKey(productId)) {
       if (_productsInCart[productId] == 1) {
         _productsInCart.remove(productId);
       } else {
-        _productsInCart[productId]--;
+        _productsInCart[productId]-= quantity;
+      }
+
+      if (_productsInCart[productId] <= 0) {
+        _productsInCart.remove(productId);
       }
     }
 

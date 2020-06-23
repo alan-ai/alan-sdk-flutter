@@ -189,4 +189,15 @@ class AppStateModel extends Model {
     _currentScreen = _getCategoryString(_selectedCategory);
     setVisuals();
   }
+
+  void menuIsOpened() {
+    _currentScreen = "menu";
+    setVisuals();
+  }
+
+  void menuIsClosed() {
+    _currentScreen = _getCategoryString(_selectedCategory);
+    setVisuals();
+  }
+
 }

@@ -16,6 +16,10 @@ class Dispatcher {
     _sendCommand("closeCart");
   }
 
+  void back() {
+    _sendCommand("back");
+  }
+
   void _sendCommand(String command, [int arg]) {
     if (commandListeners != null) {
       commandListeners.forEach((l) => l(command, arg));

@@ -43,6 +43,8 @@ class _ShrineAppState extends State<ShrineApp>
 
   AppStateModel _model;
 
+  Backdrop _backdrop;
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +59,22 @@ class _ShrineAppState extends State<ShrineApp>
 
     AlanVoice.callbacks.add((command) => _handleCommand(command.data));
     AlanVoice.addConnectionCallback((state) => _handleConnectionState(state));
+  }
+
+  Backdrop _initBackdrop() {
+    _backdrop =  Backdrop(
+      frontLayer: ProductPage(),
+      backLayer: CategoryMenuPage(
+          onCategoryTap: (categoryName) => {
+            _controller.forward(),
+            //                      _model.menuIsClosed()
+          }),
+      frontTitle: Text('SHRINE'),
+      backTitle: Text('MENU'),
+      controller: _controller,
+      dispatcher: _model.dispatcher,
+    );
+    return _backdrop;
   }
 
   //Resend visuals in case of disconnect from tutor
@@ -141,6 +159,7 @@ class _ShrineAppState extends State<ShrineApp>
         break;
       case "back":
         _model.dispatcher.closeCart();
+        _model.dispatcher.back();
         break;
       default:
         print("Unknown screen: $screen");
@@ -179,24 +198,16 @@ class _ShrineAppState extends State<ShrineApp>
 
   @override
   Widget build(BuildContext context) {
+
     return ScopedModelDescendant<AppStateModel>(
         builder: (context, child, model) {
       _model = model;
-
+      _backdrop = _initBackdrop();
       return MaterialApp(
         navigatorKey: ShrineApp.navKey,
         title: 'Shrine',
         home: HomePage(
-          backdrop: Backdrop(
-            frontLayer: ProductPage(),
-            backLayer: CategoryMenuPage(
-                onCategoryTap: (categoryName) => {
-                      _controller.forward(),
-                    }),
-            frontTitle: Text('SHRINE'),
-            backTitle: Text('MENU'),
-            controller: _controller,
-          ),
+          backdrop: _backdrop,
           expandingBottomSheet: ExpandingBottomSheet(
             hideController: _controller,
             dispatcher: _model.dispatcher,

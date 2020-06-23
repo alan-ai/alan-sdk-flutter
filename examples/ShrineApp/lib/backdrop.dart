@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/model/dispatcher.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'login.dart';
+import 'model/app_state_model.dart';
 
 const Cubic _kAccelerateCurve = Cubic(0.548, 0.0, 0.757, 0.464);
 const Cubic _kDecelerateCurve = Cubic(0.23, 0.94, 0.41, 1.0);
@@ -156,6 +159,7 @@ class Backdrop extends StatefulWidget {
   final Widget frontTitle;
   final Widget backTitle;
   final AnimationController controller;
+  final Dispatcher dispatcher;
 
   const Backdrop({
     @required this.frontLayer,
@@ -163,20 +167,28 @@ class Backdrop extends StatefulWidget {
     @required this.frontTitle,
     @required this.backTitle,
     @required this.controller,
+    @required this.dispatcher,
   })  : assert(frontLayer != null),
         assert(backLayer != null),
         assert(frontTitle != null),
         assert(backTitle != null),
-        assert(controller != null);
+        assert(controller != null),
+        assert(dispatcher != null)
+    ;
 
   @override
-  _BackdropState createState() => _BackdropState();
+  _BackdropState createState() {
+    return _BackdropState();
+  }
+
 }
 
 class _BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
+  AppStateModel _model;
   AnimationController _controller;
+  Dispatcher _dispatcher;
   Animation<RelativeRect> _layerAnimation;
 
   String _version = "";
@@ -191,6 +203,21 @@ class _BackdropState extends State<Backdrop>
   void initState() {
     super.initState();
     _controller = widget.controller;
+    _dispatcher = widget.dispatcher;
+
+    _dispatcher.commandListeners.add(((str, [arg]) => _handleEvent(str)));
+  }
+
+
+  void _handleEvent(String event) {
+    debugPrint("Got new event: ${event}");
+    switch (event) {
+      case "back":
+        closeBackdrop();
+        break;
+      default:
+        print("Unknown event ${event}");
+    }
   }
 
   Future<String> _getVersion() async {
@@ -212,11 +239,22 @@ class _BackdropState extends State<Backdrop>
 
   void _toggleBackdropLayerVisibility() {
     // Call setState here to update layerAnimation if that's necessary
+    if (_frontLayerVisible) {
+      _model.menuIsOpened();
+    } else {
+      _model.menuIsClosed();
+    }
     setState(() {
       _frontLayerVisible ? _controller.reverse() : _controller.forward();
     });
   }
 
+  void closeBackdrop() {
+    if (!_frontLayerVisible) {
+      _controller.forward();
+      _model.menuIsClosed();
+    }
+  }
   // _layerAnimation animates the front layer between open and close.
   // _getLayerAnimation adjusts the values in the TweenSequence so the
   // curve and timing are correct in both directions.
@@ -304,6 +342,8 @@ class _BackdropState extends State<Backdrop>
 
   @override
   Widget build(BuildContext context) {
+    _model = ScopedModel.of<AppStateModel>(context);
+
     var appBar = AppBar(
       brightness: Brightness.light,
       elevation: 0.0,

@@ -157,6 +157,9 @@ class _ShrineAppState extends State<ShrineApp>
       case "/cart":
         _model.dispatcher.openCart();
         break;
+      case "/menu":
+        _model.dispatcher.openMenu();
+        break;
       case "back":
         _model.dispatcher.closeCart();
         _model.dispatcher.back();

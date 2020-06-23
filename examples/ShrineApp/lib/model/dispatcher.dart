@@ -8,6 +8,10 @@ class Dispatcher {
     _sendCommand("scrollToItem", itemId);
   }
 
+  void openMenu() {
+    _sendCommand("openMenu");
+  }
+
   void openCart() {
     _sendCommand("openCart");
   }

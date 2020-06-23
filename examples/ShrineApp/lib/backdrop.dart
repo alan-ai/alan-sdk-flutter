@@ -215,6 +215,9 @@ class _BackdropState extends State<Backdrop>
       case "back":
         closeBackdrop();
         break;
+      case "openMenu":
+        openBackdrop();
+        break;
       default:
         print("Unknown event ${event}");
     }
@@ -255,6 +258,14 @@ class _BackdropState extends State<Backdrop>
       _model.menuIsClosed();
     }
   }
+
+  void openBackdrop() {
+    if (_frontLayerVisible) {
+      _controller.reverse();
+      _model.menuIsOpened();
+    }
+  }
+
   // _layerAnimation animates the front layer between open and close.
   // _getLayerAnimation adjusts the values in the TweenSequence so the
   // curve and timing are correct in both directions.

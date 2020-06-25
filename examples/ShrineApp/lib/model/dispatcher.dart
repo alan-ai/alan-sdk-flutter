@@ -20,8 +20,8 @@ class Dispatcher {
     _sendCommand("closeCart");
   }
 
-  void back() {
-    _sendCommand("back");
+  void closeMenu() {
+    _sendCommand("closeMenu");
   }
 
   void _sendCommand(String command, [int arg]) {

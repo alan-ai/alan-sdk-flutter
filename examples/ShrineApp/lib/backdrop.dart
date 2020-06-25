@@ -212,7 +212,7 @@ class _BackdropState extends State<Backdrop>
   void _handleEvent(String event) {
     debugPrint("Got new event: ${event}");
     switch (event) {
-      case "back":
+      case "closeMenu":
         closeBackdrop();
         break;
       case "openMenu":

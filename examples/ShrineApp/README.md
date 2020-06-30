@@ -1,19 +1,17 @@
-## Flutter Shrine App with Alan
+# Flutter Shrine App with Alan
 
-This is an example of using the Alan Fluter SDK.
+[Alan Platform](https://alan.app/) • [Alan Studio](https://studio.alan.app/register) • [Docs](https://alan.app/docs) • [FAQ](https://alan.app/docs/usage/additional/faq) •
+[Blog](https://alan.app/blog/) • [Twitter](https://twitter.com/alanvoiceai)
 
-## Sample voice commands
+This is an example on how to integrate the Alan Flutter SDK into a shopping app. To use this app:
 
-* show accessories
-* order stella sunglasses
-* checkout
-
-
-## Documentation
-  
-API documentation available [here](https://alan.app/docs/integrations/flutter)
+1. Clone this repository to your computer.
+2. Explore the app in the IDE and run it.
+3. In the app, tap the Alan button and say:
+  * `Show accessories`
+  * `Order stella sunglasses`
+  * `Checkout`
 
 ## Have questions?
 
-If you have any questions or if something is missing in the documentation, please [contact us](mailto:support@alan.app), or tweet us [@alanvoiceai](https://twitter.com/alanvoiceai). We love hearing from you!).
-
+If you have any questions or if something is missing in the documentation, please [contact us](mailto:support@alan.app), or tweet us [@alanvoiceai](https://twitter.com/alanvoiceai). We love hearing from you!)

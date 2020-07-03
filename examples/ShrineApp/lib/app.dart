@@ -52,7 +52,7 @@ class _ShrineAppState extends State<ShrineApp>
         vsync: this, duration: Duration(milliseconds: 450), value: 1.0);
 
     AlanVoice.addButton(
-        "52cf081173c0e4dbc1565fc2c68bda912e956eca572e1d8b807a3e2338fdd0dc/prod",
+        "23f609792aedd5734d0bf347580da6fd2e956eca572e1d8b807a3e2338fdd0dc/prod",
       buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT
     );
     _printVersion();

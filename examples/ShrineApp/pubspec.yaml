@@ -1,6 +1,6 @@
 name: Shrine
 description: Take your design up a notch and learn to use our advanced component backdrop menu.
-version: 1.0.7+15
+version: 1.0.7+16
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -14,7 +14,7 @@ dependencies:
   scoped_model: ^0.3.0
   shrine_images: ^1.0.0
   package_info: ^0.4.0+4
-  alan_voice: 2.0.7
+  alan_voice: 2.0.9
 
 dev_dependencies:
   flutter_test:

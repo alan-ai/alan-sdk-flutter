@@ -161,10 +161,13 @@ class AppStateModel extends Model {
   }
 
   void setVisuals() {
-    var visual =
-        "{\"screen\":\"$_currentScreen\", \"order\":${cartToJson()}, \"total\":${totalCost}}";
+    var visual = {
+      "screen": _currentScreen, 
+      "order": cartToJson(), 
+      "total": totalCost
+    };
     print(visual);
-    AlanVoice.setVisualState(visual);
+    AlanVoice.setVisualState(json.encode(visual));
   }
 
   void highlightValue(String value) {

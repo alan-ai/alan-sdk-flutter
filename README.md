@@ -4,6 +4,7 @@
 [Blog](https://alan.app/blog/) • [Twitter](https://twitter.com/alanvoiceai)
 
 [![Pub.dev release (latest by date)](https://img.shields.io/pub/v/alan_voice?logo=Flutter&style=for-the-badge)](https://pub.dev/packages/alan_voice)
+[![CircleCI](https://circleci.com/gh/alan-ai/alan-sdk-flutter.svg?style=shield)](https://pub.dev/packages/alan_voice)
 
 Add a voice assistant to your application. With no or minimal changes to the existing UI.
 

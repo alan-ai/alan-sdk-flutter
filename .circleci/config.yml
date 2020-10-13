@@ -14,4 +14,4 @@ jobs:
           command: flutter doctor
       - run:
           name: Build the Android version
-          command: flutter build apk 
+          command: cd examples/ShrineApp && flutter build apk 

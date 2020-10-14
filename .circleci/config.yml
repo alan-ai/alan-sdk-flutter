@@ -51,10 +51,10 @@ jobs:
           command: cd examples/ShrineApp && flutter build ios 
       - run:
           name: Update CocoaPods
-          command: pod update
+          command: cd examples/ShrineApp/ios && pod update
       - run:
           name: Install CocoaPods
-          command: pod install --repo-update
+          command: cd examples/ShrineApp/ios && pod install --repo-update
       - run:
           name: Build Shrine App iOS simulator
           command: cd examples/ShrineApp/ios && xcodebuild -configuration Release -sdk iphonesimulator

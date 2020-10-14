@@ -56,8 +56,11 @@ jobs:
           name: Install CocoaPods
           command: pod install --repo-update
       - run:
-          name: Build and run tests
-          command:  xcodebuild   -workspace Runner.xcworkspace   -scheme Runner   -sdk iphonesimulator   -destination 'platform=iOS Simulator,name=iPhone X,OS=12.2'   test | xcpretty
+          name: Build Shrine App iOS simulator
+          command: cd examples/ShrineApp/ios && xcodebuild -configuration Release -sdk iphonesimulator
+      - run:
+          name: Build Shrine App iOS simulator
+          command: cd examples/ShrineApp/ios && xcodebuild -configuration Release -sdk iphoneos
       - save_cache:
           key: flutter-cache
           paths:

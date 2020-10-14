@@ -48,7 +48,7 @@ jobs:
       - run: flutter doctor
       - run: 
           name: Flutter build
-          command: cd ..; flutter build aot
+          command: cd examples/ShrineApp && flutter build ios 
       - run:
           name: Update CocoaPods
           command: pod update

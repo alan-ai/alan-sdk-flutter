@@ -49,18 +49,6 @@ jobs:
       - run: 
           name: Flutter build
           command: cd examples/ShrineApp && flutter build ios 
-      - run:
-          name: Update CocoaPods
-          command: cd examples/ShrineApp/ios && pod update
-      - run:
-          name: Install CocoaPods
-          command: cd examples/ShrineApp/ios && pod install --repo-update
-      - run:
-          name: Build Shrine App iOS simulator
-          command: cd examples/ShrineApp/ios && xcodebuild -configuration Release -sdk iphonesimulator
-      - run:
-          name: Build Shrine App iOS simulator
-          command: cd examples/ShrineApp/ios && xcodebuild -configuration Release -sdk iphoneos
       - save_cache:
           key: flutter-cache
           paths:

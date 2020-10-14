@@ -4,7 +4,7 @@
 version: 2.1
 
 jobs:
-  build:    
+  build_android:    
     docker:
       - image: cirrusci/flutter:latest
     steps:
@@ -13,5 +13,59 @@ jobs:
           name: Run Flutter doctor
           command: flutter doctor
       - run:
-          name: Build the Android version
+          name: Build Shrine App Android
           command: cd examples/ShrineApp && flutter build apk 
+  build_ios:
+    macos:
+      xcode: 11.3.0
+    steps:
+      - checkout
+      - run:
+          name: decode Certificates
+          command: base64 -D -o Certificates.p12 \<<< $Certificates
+      - run:
+          name: make Provisioning Profiles directory
+          command: mkdir -pv ~/Library/MobileDevice/Provisioning\ Profiles/
+      - run:
+          name: decode Provisioning Profiles
+          command: base64 -D -o ~/Library/MobileDevice/Provisioning\ Profiles/App_Store.mobileprovision \<<< $App_Store_Profile
+      - run: bundle exec fastlane clean
+      - restore_cache:
+          keys: 
+            - flutter-cache
+      - run:
+          name: download flutter SDK
+          command: if ! test -f "flutter_sdk.zip"; then curl -o flutter_sdk.zip https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_1.22.1-stable.zip; fi
+      - run:
+          name: unzip flutter SDK
+          command: unzip flutter_sdk.zip
+      - run:
+          name: export flutter path
+          command: echo 'export PATH="$PATH:`pwd`/flutter/bin"'  >> $BASH_ENV 
+      - run:
+          name: Fetch CocoaPods Specs
+          command: curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh  | bash -s cf
+      - run: flutter doctor
+      - run: 
+          name: Flutter build
+          command: cd ..; flutter build aot
+      - run:
+          name: Update CocoaPods
+          command: pod update
+      - run:
+          name: Install CocoaPods
+          command: pod install --repo-update
+      - run:
+          name: Build and run tests
+          command:  xcodebuild   -workspace Runner.xcworkspace   -scheme Runner   -sdk iphonesimulator   -destination 'platform=iOS Simulator,name=iPhone X,OS=12.2'   test | xcpretty
+      - save_cache:
+          key: flutter-cache
+          paths:
+            - flutter_sdk.zip
+            - Pods
+workflows:
+  version: 2.1
+  build-android-and-ios:
+    jobs:
+      - build_android
+      - build_ios

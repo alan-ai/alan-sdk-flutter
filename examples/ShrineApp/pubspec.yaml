@@ -14,7 +14,7 @@ dependencies:
   scoped_model: ^0.3.0
   shrine_images: ^1.0.0
   package_info: ^0.4.0+4
-  alan_voice: 2.0.9
+  alan_voice: 2.4.0
 
 dev_dependencies:
   flutter_test:

@@ -6,7 +6,7 @@ version: 2.1
 jobs:
   build_android:    
     docker:
-      - image: cirrusci/flutter:latest
+      - image: cirrusci/flutter:1.20.4
     steps:
       - checkout
       - run:

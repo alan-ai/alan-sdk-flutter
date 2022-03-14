@@ -47,10 +47,29 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   _MyHomePageState() {
-    //init Alan with sample project id
+      _initAlanButton();
+  }
+
+  void _initAlanButton() {
     AlanVoice.addButton(
         "314203787ccd9370974f1bf6b6929c1b2e956eca572e1d8b807a3e2338fdd0dc/prod"
     );
+
+    AlanVoice.onCommand.add((command) {
+        debugPrint("got new command ${command.toString()}");
+        var commandName = command.data["command"] ?? "";
+        if (commandName == "showAlert") {
+            /// handle command "showAlert"
+        }
+    });
+
+    AlanVoice.onEvent.add((event) {
+        debugPrint("got new event ${event.data.toString()}");
+    });
+
+    AlanVoice.onButtonState.add((state) {
+        debugPrint("got new button state ${state.name}");
+    });
   }
 
   @override

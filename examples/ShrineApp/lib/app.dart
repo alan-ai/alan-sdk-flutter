@@ -52,7 +52,7 @@ class _ShrineAppState extends State<ShrineApp>
         vsync: this, duration: Duration(milliseconds: 450), value: 1.0);
 
     AlanVoice.addButton(
-        "23f609792aedd5734d0bf347580da6fd2e956eca572e1d8b807a3e2338fdd0dc/prod",
+        "4ba187b6253517d59f460916b5d74cf42e956eca572e1d8b807a3e2338fdd0dc/stage",
       buttonAlign: AlanVoice.BUTTON_ALIGN_LEFT
     );
     _printVersion();
@@ -239,12 +239,12 @@ ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.light();
   return base.copyWith(
     colorScheme: kShrineColorScheme,
-    accentColor: kShrineBrown900,
+    // accentColor: kShrineBrown900,
     primaryColor: kShrinePink100,
-    buttonColor: kShrinePink100,
+    // buttonColor: kShrinePink100,
     scaffoldBackgroundColor: kShrineBackgroundWhite,
     cardColor: kShrineBackgroundWhite,
-    textSelectionColor: kShrinePink100,
+    // textSelectionColor: kShrinePink100,
     errorColor: kShrineErrorRed,
     buttonTheme: const ButtonThemeData(
       colorScheme: kShrineColorScheme,
@@ -255,7 +255,7 @@ ThemeData _buildShrineTheme() {
         const InputDecorationTheme(border: CutCornersBorder()),
     textTheme: _buildShrineTextTheme(base.textTheme),
     primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
+    // accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
     iconTheme: _customIconTheme(base.iconTheme),
   );
 }
@@ -263,20 +263,20 @@ ThemeData _buildShrineTheme() {
 TextTheme _buildShrineTextTheme(TextTheme base) {
   return base
       .copyWith(
-        headline: base.headline.copyWith(fontWeight: FontWeight.w500),
-        title: base.title.copyWith(fontSize: 18.0),
-        caption: base.caption.copyWith(
-          fontWeight: FontWeight.w400,
-          fontSize: 14.0,
-        ),
-        body2: base.body2.copyWith(
+        headlineLarge: base.headlineLarge.copyWith(fontWeight: FontWeight.w500),
+        titleLarge: base.titleLarge.copyWith(fontSize: 18.0),
+        // caption: base.caption.copyWith(
+        //   fontWeight: FontWeight.w400,
+        //   fontSize: 14.0,
+        // ),
+        bodyLarge: base.bodyLarge.copyWith(
           fontWeight: FontWeight.w500,
           fontSize: 16.0,
         ),
-        button: base.button.copyWith(
-          fontWeight: FontWeight.w500,
-          fontSize: 14.0,
-        ),
+        // button: base.button.copyWith(
+        //   fontWeight: FontWeight.w500,
+        //   fontSize: 14.0,
+        // ),
       )
       .apply(
         fontFamily: 'Rubik',
@@ -287,9 +287,9 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
 
 const ColorScheme kShrineColorScheme = ColorScheme(
   primary: kShrinePink100,
-  primaryVariant: kShrineBrown900,
+  // primaryVariant: kShrineBrown900,
   secondary: kShrinePink50,
-  secondaryVariant: kShrineBrown900,
+  // secondaryVariant: kShrineBrown900,
   surface: kShrineSurfaceWhite,
   background: kShrineBackgroundWhite,
   error: kShrineErrorRed,

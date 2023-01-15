@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:Shrine/model/dispatcher.dart';
+import 'package:shrine/model/dispatcher.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+// import 'package:meta/meta.dart';
 import 'package:package_info/package_info.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'login.dart';
 import 'model/app_state_model.dart';
 
 const Cubic _kAccelerateCurve = Cubic(0.548, 0.0, 0.757, 0.464);
@@ -85,7 +84,7 @@ class _BackdropTitle extends AnimatedWidget {
     );
 
     return DefaultTextStyle(
-      style: Theme.of(context).primaryTextTheme.title,
+      style: Theme.of(context).primaryTextTheme.titleLarge,
       softWrap: false,
       overflow: TextOverflow.ellipsis,
       child: Row(children: <Widget>[

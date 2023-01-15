@@ -20,8 +20,8 @@ import 'app.dart';
 import 'model/app_state_model.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   var model = AppStateModel();
   model.loadProducts();

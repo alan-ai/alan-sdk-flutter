@@ -6,20 +6,20 @@
 [![Pub.dev release (latest by date)](https://img.shields.io/pub/v/alan_voice?logo=Flutter&style=shield)](https://pub.dev/packages/alan_voice)
 [![CircleCI](https://circleci.com/gh/alan-ai/alan-sdk-flutter.svg?style=shield)](https://circleci.com/gh/alan-ai/alan-sdk-flutter)
 
-Quickly create AI assistants and AI chats with the Alan AI Platform. Enable human-like conversations and perform actions in any app through voice and text commands.
+Quickly create AI assistants with the Alan AI Platform. Enable human-like conversations and perform actions in any app through voice commands.
 
 <img src="https://storage.googleapis.com/alan-public-images/github/phone-ads.gif" height="325px" align="right"/>
 
 ## Actionable AI Platform
 
-Alan AI is an Actionable AI Platform that lets you create a voice AI assistant and voice/text AI chat for your app. It offers all necessary tools to design, embed and host conversational experiences:
+Alan AI is an Actionable AI Platform that lets you create a voice AI assistant for your app. It offers all necessary tools to design, embed and host conversational experiences:
 
 #### Alan AI Studio
-A powerful web-based IDE where you can write, test and debug dialog scenarios for your AI assistant or AI chat.
+A powerful web-based IDE where you can write, test and debug dialog scenarios for your AI assistant.
 
 #### Alan AI SDKs
 
-Alan AI's lightweight SDKs to quickly embed an AI assistant or AI chat to your app.
+Alan AI's lightweight SDKs to quickly embed an AI assistant to your app.
 
 #### Alan AI Cloud
 
@@ -36,10 +36,10 @@ To get more details on how Alan AI works, see <a href="https://alan.app/platform
 
 ## How to start
 
-To create an AI assistant or AI chat for your Flutter app:
+To create an AI assistant for your Flutter app:
 
 1. <a href="https://studio.alan.app/register" target="_blank">Sign up for Alan AI Studio</a> to build dialog scripts in JavaScript and test them.
-2. Use the Alan AI SDK for Flutter to embed an AI assistant or AI chat to your app. For details, see <a href="https://www.alan.app/docs/client-api/cross-platform/flutter" target="_blank">Alan AI documentation</a>.
+2. Use the Alan AI SDK for Flutter to embed an AI assistant to your app. For details, see <a href="https://www.alan.app/docs/client-api/cross-platform/flutter" target="_blank">Alan AI documentation</a>.
 
 ## Downloads
 

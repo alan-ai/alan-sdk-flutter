@@ -69,7 +69,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           ),
                           Text(
                             'CART',
-                            style: localTheme.textTheme.subhead
+                            style: localTheme.textTheme.subtitle1
                                 .copyWith(fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(width: 16.0),
@@ -88,20 +88,21 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                     bottom: 16.0,
                     left: 16.0,
                     right: 16.0,
-                    child: RaisedButton(
-                      shape: const BeveledRectangleBorder(
+                    child: Container(
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                        color: kShrinePink100,
                       ),
-                      color: kShrinePink100,
-                      splashColor: kShrineBrown600,
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12.0),
-                        child: Text('CLEAR CART'),
+                      child: ElevatedButton(
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text('CLEAR CART'),
+                        ),
+                        onPressed: () {
+                          model.clearCart();
+                          ExpandingBottomSheet.of(context).close();
+                        },
                       ),
-                      onPressed: () {
-                        model.clearCart();
-                        ExpandingBottomSheet.of(context).close();
-                      },
                     ),
                   ),
                 ],
@@ -138,8 +139,8 @@ class _ShoppingCartSummaryState extends State<ShoppingCartSummary> {
   @override
   Widget build(BuildContext context) {
     final smallAmountStyle =
-        Theme.of(context).textTheme.body1.copyWith(color: kShrineBrown600);
-    final largeAmountStyle = Theme.of(context).textTheme.display1;
+        Theme.of(context).textTheme.bodyText1.copyWith(color: kShrineBrown600);
+    final largeAmountStyle = Theme.of(context).textTheme.displaySmall;
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: 2, locale: Localizations.localeOf(context).toString());
 
@@ -286,7 +287,7 @@ class ShoppingCartRow extends StatelessWidget {
                             ),
                             Text(
                               product.name,
-                              style: localTheme.textTheme.subhead
+                              style: localTheme.textTheme.subtitle1
                                   .copyWith(fontWeight: FontWeight.w600),
                             ),
                           ],

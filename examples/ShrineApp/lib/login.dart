@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 16.0),
                 Text(
                   'SHRINE',
-                  style: Theme.of(context).textTheme.headline,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
@@ -65,25 +65,31 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ButtonBar(
               children: <Widget>[
-                FlatButton(
-                  child: const Text('CANCEL'),
-                  shape: const BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(7.0))
                   ),
-                  onPressed: () {
-                    _usernameController.clear();
-                    _passwordController.clear();
-                  },
+                  child: TextButton(
+                    child: const Text('CANCEL'),
+                    onPressed: () {
+                      _usernameController.clear();
+                      _passwordController.clear();
+                    },
+                  ),
                 ),
-                RaisedButton(
-                  child: const Text('NEXT'),
-                  elevation: 8.0,
-                  shape: const BeveledRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(7.0))
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  child: ElevatedButton(
+                    child: const Text('NEXT'),
+                    style: ElevatedButton.styleFrom(
+                      textStyle: const TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
               ],
             ),

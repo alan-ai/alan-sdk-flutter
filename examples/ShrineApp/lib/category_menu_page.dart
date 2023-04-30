@@ -46,7 +46,7 @@ class CategoryMenuPage extends StatelessWidget {
                       SizedBox(height: 16.0),
                       Text(
                         categoryString,
-                        style: theme.textTheme.body2,
+                        style: theme.textTheme.bodyText1,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 14.0),
@@ -61,7 +61,7 @@ class CategoryMenuPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                     child: Text(
                       categoryString,
-                      style: theme.textTheme.body2
+                      style: theme.textTheme.bodyText2
                           .copyWith(color: kShrineBrown900.withAlpha(153)),
                       textAlign: TextAlign.center,
                     ),
